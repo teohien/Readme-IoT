@@ -1,6 +1,5 @@
 # Tổng Quan về dự án Mạng và các giao thức IoT: Smarthome
-
-![example](smart-home-3-730x340.png)
+![example](Smarthome.jpg)
 
 # I. Cài đặt và sử dụng phầm mềm
 ## 1. Platform IO lập trình ESP32

@@ -1,8 +1,8 @@
 
-# Hướng dẫn cài đặt và sử dụng các chương trình trong dự án
+# Hướng dẫn cài đặt và sử dụng các chương trình trong dự án IoT
 ![example](AdobeStock_304073455-be8469dd.jpeg)  
 
-Tổng quan về dự án Mạng và các giao thức IoT: Xây dựng mô hình nhà thông minh; quản lý, điều khiển từ thiết bị thông qua 2 giao thức là MQTT và HTTP; điều khiển Local khi không có kết nối Internet.  
+Tổng quan về dự án Mạng và các giao thức IoT: Xây dựng mô hình nhà thông minh; quản lý, điều khiển từ xa thiết bị thông qua 2 giao thức là MQTT và HTTP; điều khiển Local khi không có kết nối Internet.  
 
 # I. Cài đặt và sử dụng phầm mềm
 ## 1. Platform IO lập trình ESP32
@@ -192,7 +192,7 @@ a) Các hàm khởi tạo
    Firebase.setMultiPathStreamCallback(DATA_Fb_2_Mos, streamCallback, streamTimeoutCallback);
 
 ```  
-b) Hàm cập nhật dữ liệu từ Firebase về Gateway
+b) Hàm cập nhật dữ liệu từ Firebase về Gateway  
 -- Khi database ở Firebase thay đổi thì hàm StreamCallback mới được gọi. Vào Callback sẽ kiểm tra từng hàm DATA_Fb_2_Mos.get(childPath[i]) (với childPath[i] là đường dẫn đến từng biến dữ liệu). Hàm này sẽ trả về True khi dữ liệu thay đổi, False khi dữ liệu không đổi.  
 -- Kiểm tra hàm này nếu trả về True thì sẽ lưu dữ liệu nhận được vào biến App_Request và bật cờ lên để thực hiện public dữ liệu App_Request vào từng topic tương ứng.  
 ```c
@@ -428,5 +428,5 @@ server.on("/slider", HTTP_GET, [] (AsyncWebServerRequest *request) {
     Serial.println(inputMessage);
     request->send(200, "text/plain", "OK");
   });
-  
+
 ```

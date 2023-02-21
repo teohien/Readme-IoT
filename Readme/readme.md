@@ -13,7 +13,7 @@ Tổng quan về dự án Mạng và các giao thức IoT: Xây dựng m
 Truy cập link: https://code.visualstudio.com/
 -- Download và Cài đặt như một software bình thường.
 ## Cài đặt Platform IO
--- Trước khi cài Extension này, chúng ta cần cài đặt Python cho máy tính đã.
+-- Trước khi cài Extension này, cần cài đặt Python cho máy tính đã.
 
 ![example](1-python.png)
 
@@ -25,21 +25,20 @@ Truy cập link: https://www.python.org/downloads/.
 
 ![example](download-platform.png)  
 -- Restart lại VS code sau đó chờ cho tất cả các extension được load.
-**Lưu ý:** máy tính bạn cần phải có mạng nhé.
+**Lưu ý:** máy tính cần phải có mạng nhé.
 ## Cài đặt Driver nạp cho mạch.
--- Tùy vào trường hợp mạch bạn sử dụng IC UART nào, chúng ta sẽ cài đặt driver cho chip đó:
+-- Tùy vào trường hợp mạch sử dụng IC UART nào, sẽ cài đặt driver cho chip đó:
 Thường là 2 loại:  
 CP210x: [Link download và cài đặt](https://sparks.gogo.co.nz/ch340.html).  
 CH340:  [Link download và cài đặt](https://sparks.gogo.co.nz/ch340.html).  
 ## Hướng dẫn sử dụng Platform IO lập trình ESP32
--- Tạo một dự án lập trình ESP32 với Platform IO.
-Chúng ta nhấn vào biểu tượng logo của Platform io, trong tab Quick Acccess nhấn Open. Vs code sẽ mở ra trang PIO Home.  
--- Sau đó nhân vào New Project để tạo 1 dự án mới. Đặt tên dự án, Chọn KIT sử dụng, ở đây là board DOIT ESP32 DEV KIT (loại thường gặp nhất đó).  
+-- Tạo một dự án lập trình ESP32 với Platform IO. Nhấn vào biểu tượng logo của Platform io, trong tab Quick Acccess nhấn Open. Vs code sẽ mở ra trang PIO Home.  
+-- Sau đó nhấn vào New Project để tạo 1 dự án mới. Đặt tên dự án, Chọn KIT sử dụng, ở đây là board DOIT ESP32 DEV KIT (loại thường gặp nhất đó).  
 Chọn Framwork là Arduino:
 
 ![example](3-adruino.jpg)
 
--- Bỏ tick Use Defaul Location, sau đó trỏ tới nơi bạn lưu project, nhấn Finish để hoàn thành.  
+-- Bỏ tick Use Defaul Location, sau đó trỏ tới nơi lưu project, nhấn Finish để hoàn thành.  
 
 ![example](4-location.jpg)  
 
@@ -48,44 +47,45 @@ Chọn Framwork là Arduino:
 ![example](platformio-4-742x400.jpg)
 
 **Gồm :**
-- **Phần cây thư mục dự án:** cho chúng ta thêm, sửa, xóa các file nhanh  
+- **Phần cây thư mục dự án:** cho phép thêm, sửa, xóa các file nhanh  
 - **Phần Text editor:** là nơi viết code  
 - **Cửa sổ Terminal:** Nơi gõ các câu lênh  
 - **Thanh công cụ:** Lần lượt là Home, Build, Upload code, Clean, Serial Monitor(màn hình serial), Terminal  
-- **Thư mục Src:** Chứa Source code của chương trình, đây là nơi lưu trữ code và bạn sẽ code trên đó. File thực thi chính là: main.cpp  
+- **Thư mục Src:** Chứa Source code của chương trình, đây là nơi lưu trữ code và sẽ code trên đó. File thực thi chính là: main.cpp  
 - **Ứng dụng trong dự án:** Lập trình vi điều khiển ESP32 cho End Devices và Gateway
 
--- Trên thực tế, các bạn có thể Copy trực tiếp các đoạn code viết bằng Arduino IDE và Paste thẳng vào đây. Chỉ cần giữ **#include <Arduino.h>** là code cũng có thể chạy bình thường. Thế nên các dự án mà bạn viết bằng Arduino cũng đều có thể viết bằng VS code nhé.   
--- File platformio.ini là file cấu hình PlatformIO cho project của bạn. Nó hiển thị các thông tin như platform, board và framework được sử dụng. Bạn cũng có thể thêm các cấu hình khác như các thư viện được đưa vào, tùy chọn upload code, hay tốc độ truyền của Serial Monitor, đường dẫn thư viện và các cấu hình khác. Thực tế các bạn nên để nguyên.  
+-- Trên thực tế, có thể Copy trực tiếp các đoạn code viết bằng Arduino IDE và Paste thẳng vào đây. Chỉ cần giữ **#include <Arduino.h>** là code cũng có thể chạy bình thường. Thế nên các dự án viết bằng Arduino cũng đều có thể viết bằng VS code nhé.   
+-- File platformio.ini là file cấu hình PlatformIO cho project. Nó hiển thị các thông tin như platform, board và framework được sử dụng. Cũng có thể thêm các cấu hình khác như các thư viện được đưa vào, tùy chọn upload code, hay tốc độ truyền của Serial Monitor, đường dẫn thư viện và các cấu hình khác. Thực tế nên để nguyên.  
 -- Nếu muốn thay đổi tốc độ baud của Serial Monitor có thể sử dụng lệnh: **monitor_speed = 115200**.  
--- Nếu muốn thêm đường dẫn của thư viện chúng ta dùng: lib_deps = E:/thuvien. Trong đó E:/thuvien là đường dẫn tới file thư viện bạn cài đặt.    
+-- Nếu muốn thêm đường dẫn của thư viện, dùng: lib_deps = E:/thuvien. Trong đó E:/thuvien là đường dẫn tới file thư viện cần cài đặt.    
 ## Cài đặt thư viện cho Platformio   
 ### Sử dụng công cụ Libraly trong Platformio  
-- Làm theo quy trình dưới đây nếu bạn cần cài đặt thư viện trong PlatformIO IDE.  
+- Làm theo quy trình dưới đây nếu cần cài đặt thư viện trong PlatformIO IDE.  
 - Nhấp vào biểu tượng Home để chuyển đến Trang chủ PlatformIO. Nhấp vào biểu tượng Libraries trên thanh bên trái.  
-- Tìm kiếm thư viện bạn muốn cài đặt. Ví dụ Adafruit_BME280 .  
+- Tìm kiếm thư viện muốn cài đặt.  
+- Ví dụ Adafruit_BME280 .  
 
 ![example](platfomrio-thu-vien-3-602x400.png)
 
--- Nhấp vào thư viện bạn muốn đưa vào dự án của mình. Sau đó, nhấp vào Add to Project.  
+-- Nhấp vào thư viện muốn đưa vào dự án của mình. Sau đó, nhấp vào Add to Project.  
 
 ![example](platfomrio-thu-vien-1.png)
 
 
--- Chọn dự án bạn muốn sử dụng thư viện.
+-- Chọn dự án muốn sử dụng thư viện.
 
 ![exapmle](platfomrio-thu-vien-2-669x400.png)
 
--- Thao tác này sẽ thêm code định danh thư viện bằng cách sử dụng lid_depschỉ thị trên file platformio.ini . Nếu bạn mở file platformio.ini của dự án , nó sẽ trông nh thể hiện trong hình ảnh sau.  
+-- Thao tác này sẽ thêm code định danh thư viện bằng cách sử dụng lid_depschỉ thị trên file platformio.ini . Nếu mở file platformio.ini của dự án , nó sẽ trông nh thể hiện trong hình ảnh sau.  
 
 ![example](platfomrio-thu-vien-4-768x357.png)
 
--- Ngoài ra, trên cửa sổ thư viện, nếu bạn chọn tab Installation và cuộn một chút, bạn sẽ thấy code định danh cho thư viện. Bạn có thể chọn bất kỳ số nhận dạng nào tùy thuộc vào tùy chọn bạn muốn sử dụng. Các mã nhận dạng thư viện được đánh dấu màu đỏ.
+-- Ngoài ra, trên cửa sổ thư viện, nếu chọn tab Installation và cuộn một chút, bạn sẽ thấy code định danh cho thư viện. Có thể chọn bất kỳ số nhận dạng nào tùy thuộc vào tùy chọn muốn sử dụng. Các mã nhận dạng thư viện được đánh dấu màu đỏ.
 
 ![example](platfomrio-thu-vien-5-513x400.png)
 
 ## Build và Upload code cho ESP32 bằng Platform IO
--- Mình sẽ chọn một example huyền thoại là Blink Led trên Arduino IDE, copy đoạn code đó, sau đó paste vào VS code
+-- Đây là 1 example huyền thoại là Blink Led trên Arduino IDE, copy đoạn code đó, sau đó paste vào VS code.
 
 ![example](Screenshot_1-768x370.jpg)
 
@@ -94,7 +94,7 @@ Nhớ giữ lại **#include <Arduino.h>** nhé!
 ![example](Screenshot_2-744x400.jpg)
 
 -- Sau đó nhấn Build để biên dịch chương trình, Khi terminal báo Success là ok. Nếu chương trình có lỗi, hãy chuển tab Problems để view lỗi nhé!  
--- Cắm mạch vào và nhấn Upload, nếu đến đoạn connecting mà vscode ko tìm thấy esp, các bạn nhấn nút BOOT trên mạch giữ 1 chút rồi nhả ra nhé. Để ESP vào chế độ Nạp.
+-- Cắm mạch vào và nhấn Upload, nếu đến đoạn connecting mà vscode ko tìm thấy esp, nhấn nút BOOT trên mạch giữ 1 chút rồi nhả ra nhé. Để ESP vào chế độ Nạp.
 
 ![example](Screenshot_3-768x130.jpg)
 
@@ -103,14 +103,14 @@ Nhớ giữ lại **#include <Arduino.h>** nhé!
 **Ứng dụng trong dự án:** UART để hiển thị các dữ liệu truyền nhận được giữa End Devices và Gateway, hỗ trợ mô phỏng để kiểm tra dữ liệu.  
 [Link hướng dẫn chi tiết](https://khuenguyencreator.com/huong-dan-hercules-terminal/)  
 -- Hercules Terminal cũng như các phần mềm Terminal khác dùng để đọc chuỗi nhận được thông qua các cổng khác nhau trên máy tính.  
--- Trong bài viết này mình chỉ đề cập tới việc sử dụng cổng COM hay Serial để đọc và truyền dữ liệu  
+-- Bài viết này chỉ đề cập tới việc sử dụng cổng COM hay Serial để đọc và truyền dữ liệu  
 -- Đầu tiên các bạn **Download** tại link:  [Hercules Terminal](https://www.fshare.vn/file/DI61DGWVGBXH?token=1676858630)
 **Truyền nhận Serial với Hercules Terminal**
--- Mở Terminal lên chọn Tab Serial – Name = Cổng COM mà bạn đang sử dụng (ở đây mình đang dùng COM4), Baud set cho phù hợp với ứng dụng của bạn. Nhấn Open   
+-- Mở Terminal lên chọn Tab Serial – Name = Cổng COM đang sử dụng (ở đây mình đang dùng COM4), Baud set cho phù hợp với ứng dụng. Nhấn Open   
 
 ![example](H2-9.png)  
 -- Hướng dẫn Download và sử dụng Hercules Terminal 44  
--- Vậy là bạn có thể truyền nhận dữ liệu thông qua cổng COM rồi nhé.  
+-- Vậy là có thể truyền nhận dữ liệu thông qua cổng COM rồi nhé.  
 ## 3. Arduino
 **Ứng dụng trong dự án:** UART để hiển thị các dữ liệu truyền nhận được giữa End Devices và Gateway, hỗ trợ mô phỏng để kiểm tra dữ liệu theo thời gian.  
 [Link hướng dẫn chi tiết](https://khuenguyencreator.com/bai-1-huong-dan-cai-dat-arduino-ide-va-cach-them-thu-vien/)  
@@ -118,11 +118,11 @@ Nhớ giữ lại **#include <Arduino.h>** nhé!
 
 ![example](1338_81220-1431420080-0-2015-05-12-21h45-54-1-789x400.png)  
 
-Bạn sẽ được chuyển đến một trang mời quyền góp tiền để phát triển phần mềm cho Arduino, tiếp tục bấm **JUST DOWNLOAD** để bắt đầu tải.
+Web chuyển đến một trang mời quyền góp tiền để phát triển phần mềm cho Arduino, tiếp tục bấm **JUST DOWNLOAD** để bắt đầu tải.
 
 ![example](1394_12320-1431420084-0-2015-05-12-21h46-45-701x400.png)
 
-**Bước 2:** Sau khi download xong, các bạn bấm chuột phải vào file vừa **download arduino-1.6.4-windows.zip** và chọn **“Extract here”** để giải nén.
+**Bước 2:** Sau khi download xong, bấm chuột phải vào file vừa **download arduino-1.6.4-windows.zip** và chọn **“Extract here”** để giải nén.
 
 ![example](1364_88220-1431517904-0-2015-05-13-18h50-56-411x400.png)
 
@@ -131,10 +131,10 @@ Bạn sẽ được chuyển đến một trang mời quyền góp tiền để 
 
 ![example](1398_12320-1431518163-0-2015-05-13-18h55-51-333x400.png)
 
-Như vậy chúng ta đã cài đặt Arduino IDE xong.  
+Như vậy là đã cài đặt Arduino IDE xong.  
 
 **Cài đặt Serial**
--- Cài đặt **Port** truyền nhận dữ liệu (ở đây mình đang dùng COM5) và tốc độ truyền ở **Upload Speed**.
+-- Cài đặt **Port** truyền nhận dữ liệu (ở đây đang dùng COM5) và tốc độ truyền ở **Upload Speed**.
 
 ![example](port.png)
 

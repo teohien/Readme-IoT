@@ -76,7 +76,7 @@ Chọn Framwork là Arduino:
 
 ![exapmle](platfomrio-thu-vien-2-669x400.png)
 
--- Thao tác này sẽ thêm code định danh thư viện bằng cách sử dụng lid_depschỉ thị trên file platformio.ini . Nếu mở file platformio.ini của dự án , nó sẽ trông nh thể hiện trong hình ảnh sau.  
+-- Thao tác này sẽ thêm code định danh thư viện bằng cách sử dụng lid_depschỉ thị trên file platformio.ini . Nếu mở file platformio.ini của dự án , nó sẽ trông như trong hình ảnh sau.  
 
 ![example](platfomrio-thu-vien-4-768x357.png)
 
@@ -93,7 +93,7 @@ Nhớ giữ lại **#include <Arduino.h>** nhé!
 
 ![example](Screenshot_2-744x400.jpg)
 
--- Sau đó nhấn Build để biên dịch chương trình, Khi terminal báo Success là ok. Nếu chương trình có lỗi, hãy chuển tab Problems để view lỗi nhé!  
+-- Sau đó nhấn Build để biên dịch chương trình, Khi terminal báo Success là ok. Nếu chương trình có lỗi, hãy chuyển tab Problems để view lỗi nhé!  
 -- Cắm mạch vào và nhấn Upload, nếu đến đoạn connecting mà vscode ko tìm thấy esp, nhấn nút BOOT trên mạch giữ 1 chút rồi nhả ra nhé. Để ESP vào chế độ Nạp.
 
 ![example](Screenshot_3-768x130.jpg)
@@ -140,7 +140,7 @@ Như vậy là đã cài đặt Arduino IDE xong.
 
 Serial trên Adrunino có chế độ **Show Timestamp** để hiển thị thời gian truyền nhận đến **ms**.
 
-![example](serialcom5.png)
+![example](serialcom5.png)  
 
 # II. Triển khai dự án
 ## 1. Truyền nhận dữ liệu giữa End Devices và Gateway bằng giao thức MQTT  

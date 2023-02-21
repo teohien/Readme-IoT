@@ -1,5 +1,8 @@
-# Tổng Quan về dự án Mạng và các giao thức IoT: Smarthome
-![example](AdobeStock_304073455-be8469dd.jpeg)
+
+# Hướng dẫn cài đặt và sử dụng các chương trình trong dự án
+![example](AdobeStock_304073455-be8469dd.jpeg)  
+
+Tổng quan về dự án Mạng và các giao thức IoT: Xây dựng mô hình nhà thông minh; quản lý, điều khiển từ thiết bị thông qua 2 giao thức là MQTT và HTTP; điều khiển Local khi không có kết nối Internet.  
 
 # I. Cài đặt và sử dụng phầm mềm
 ## 1. Platform IO lập trình ESP32
@@ -140,11 +143,125 @@ Serial trên Adrunino có chế độ **Show Timestamp** để hiển thị th�
 ![example](serialcom5.png)
 
 # II. Triển khai dự án
-## 1. End Devices
-## 2. Gateway
-## 3. Firebase
-## 4. Triển khai Gateway để truyền nhận dữ liệu tương tác với Firebase
-## 5. Triển khai App MIT Inventor để đọc và gửi dữ liệu tương tác với Firebase  
+## 1. Truyền nhận dữ liệu giữa End Devices và Gateway bằng giao thức MQTT  
+a) Các hàm khởi tạo
+```c
+// Khởi tạo kết nối MQTT tới MQTT Server
+  client.setServer(mqtt_server, 1883);
+// Khởi tạo hàm callbackMQTT để cập nhật dữ liệu mới vào các topic
+  client.setCallback(callbackMQTT);
+```  
+b) Các hàm kiểu tra và duy kết nối Client - Broker
+```c
+    // Kiểm tra kết nối client-broker
+      if (!client.connected()) 
+      {
+        reconnect_MQTT();
+      }
+    // Duy trì quá trình kết nối client-broker:
+      client.loop();
+```  
+c) Hàm public dữ liệu vào topic 
+```c
+  boolean client.publish (topic, payload);
+Với:
+topic - chủ đề để xuất bản lên.
+payload  - thông báo cần xuất bản.
+Hàm này trả lại về:
++ True - xuất bản thành công.
++ False - xuất bản không thành công, mất kết nối hoặc tin nhắn quá lớn.
+```  
+d) Hàm subscribe vào topic
+```c
+   boolean client.subscribe(topic);
+Với: topic - chủ đề để được đăng ký.
+Hàm này trả lại:   
++ True - gửi đăng ký thành công.
++ False - gửi đăng ký không thành công, mất kết nối hoặc tin nhắn quá lớn.
+
+```
+## 2. Truyền nhận dữ liệu giữa  Gateway và Firebase bằng giao thức HTTP  
+a) Các hàm khởi tạo
+```c
+// Khởi tạo kết nối tới Firebase
+  connect_Firebase();
+// Khởi tạo hàm callbackMQTT để cập nhật dữ liệu lên Firebase
+  client.setCallback(callbackMQTT);
+// Khởi tạo hàm streamCallback để cập nhật dữ liệu mới vào các topic ở Gateway 
+   if (!Firebase.beginMultiPathStream(DATA_Fb_2_Mos, parentPath))
+   Firebase.setMultiPathStreamCallback(DATA_Fb_2_Mos, streamCallback, streamTimeoutCallback);
+
+```  
+b) Hàm cập nhật dữ liệu từ Firebase về Gateway
+-- Khi database ở Firebase thay đổi thì hàm StreamCallback mới được gọi. Vào Callback sẽ kiểm tra từng hàm DATA_Fb_2_Mos.get(childPath[i]) (với childPath[i] là đường dẫn đến từng biến dữ liệu). Hàm này sẽ trả về True khi dữ liệu thay đổi, False khi dữ liệu không đổi.  
+-- Kiểm tra hàm này nếu trả về True thì sẽ lưu dữ liệu nhận được vào biến App_Request và bật cờ lên để thực hiện public dữ liệu App_Request vào từng topic tương ứng.  
+```c
+//streamCallback()
+void streamCallback(MultiPathStreamData DATA_Fb_2_Mos)
+{
+  size_t numChild = sizeof(childPath) / sizeof(childPath[0]);
+
+  for (size_t i = 0; i < numChild; i++)
+  { 
+    // DATA_Fb_2_Mos: biến dùng để lưu dữ liệu từ Firebase về Mosquitto
+    // DATA_Fb_2_Mos.get : ứng với từng path (đường dẫn đến từng path con: path nhỏ nhất)
+    // Kiểm tra xem có path nào cập nhật thì set cờ báo tương ứng với thiết bị được điều khiển 
+    if (DATA_Fb_2_Mos.get(childPath[0]))
+    {
+      App_Request = DATA_Fb_2_Mos.value.c_str();
+      flag_light2 = true;
+    } 
+    ...
+  }
+}
+
+```  
+-- Kiểm tra cờ Flag trong vòng Loop, nếu cờ này bằng True thì tiến hành Public dữ liệu App_Request vào topic tương ứng với từng Path. Ví dụ: Path “childPath[0]” sẽ có cờ flag_light2 ứng với topic “pb/dk/Den2”.  
+```c  
+if(flag_light2 == true)
+    {
+      if (App_Request == "1")  client.publish("pb/dk/Den2", "ON");              
+      if (App_Request == "0")  client.publish("pb/dk/Den2", "OFF");
+      flag_light2 = false;
+    }
+
+```  
+b) Hàm cập nhật dữ liệu từ Gateway lên Firebase  
+-- Khi dữ liệu ở các topic thay đổi thì hàm callbackMQTT mới được gọi. Tên topic sẽ được lưu vào biến topic; dữ liệu sẽ được lưu vào biến messageMQTT, độ dài dữ liệu lưu vào biến length.  
+-- Kiểm tra xem là dữ liệu mới của topic nào thì sẽ gửi vào Path tương ứng trên Firebase. Ví dụ: topic “pk/tt/den1” sẽ ứng với Path "/G15_SmartHome/LivingRoom/Status/Light1".  
+```c
+/ callbackMQTT() - Xử lý gói tin nhận được qua giao thức MQTT xong đẩy lên Firebase
+  void callbackMQTT(char* topic, byte* payload, unsigned int length) 
+  {
+    char messageBuff[100] = {'\0'};
+    int i = 0;
+    for (i = 0; i < length; i++) 
+    {
+      messageBuff[i] = (char)payload[i];
+    }
+    messageBuff[i] = '\0';
+    String messageMQTT = String(messageBuff);
+    //Serial monitor check
+    Serial.print("Message arrived [");
+    Serial.print(topic);
+    Serial.print("] ");
+    Serial.println(messageMQTT);
+    String TOPIC = String(topic);
+ 
+    //-------------------------------------------------------------
+    // #define topic2 "pk/tt/Den1"
+      if(TOPIC == topic2)
+      {
+        if(messageMQTT == "ON") Firebase.setString(DATA_Mos_2_Fb, "/G15_SmartHome/LivingRoom/Status/Light1", messageMQTT);
+        if(messageMQTT == "OFF") Firebase.setString(DATA_Mos_2_Fb, "/G15_SmartHome/LivingRoom/Status/Light1", messageMQTT);  
+        return;
+      }
+      ...
+  }
+
+```  
+
+## 3. Truyền nhận dữ liệu giữa  Firebase và Mit App Inventor bằng giao thức HTTP  
 Nhóm em sẽ sử dụng App để phục vụ hai chức năng chính của hệ thống:  
 -- Chức năng hiển thị trạng thái của Đèn và một số kịch bản như hiển thị nhiệt độ, trạng thái của cảm biến hồng ngoại, …  
 +) Để có thể đọc được dữ liệu từ Firebase đến App, nhóm em sử dụng chức năng của một số khối sau để thực hiện:  
@@ -175,8 +292,8 @@ Nhóm em sẽ sử dụng App để phục vụ hai chức năng chính của h�
 
 ![example](Ảnh6.png)
 
-## 6. Điều khiển Local  
-### 6.1 Web Server  
+## 4. Điều khiển Local  
+### 4.1 Web Server  
 [Link chi tiết hoạt động của Web Server](https://deviot.vn/tutorials/esp32.66047996/esp32-web-server.91264736)  
 
 -- Web Server sử dụng giao thức HTTP. Để dễ hình dung, khi có một client truy cập vào địa chỉ IP của webserver thì browser sẽ gửi cho server một http request (ứng với GET trong code). Ngay khi nhận được request này server sẽ gửi lại một http response (ứng với request->send trong code) có chứa nội dung là file html: index_html của webserver. 
@@ -199,13 +316,13 @@ Hàm response file index_html cho Web Client: bao gồm nhiệt độ, độ
 Giao diện từ file html khi truy cập địa chỉ IP của ESP32: 192.168.0.117.
 
 
-### 6.2 AJAX  
+### 4.2 AJAX  
 [Link cụ thể về kỹ thuật AJAX](https://wiki.matbao.net/ajax-la-gi-cach-su-dung-ajax-toi-uu-nhat/)  
 
 -- Ajax là cách mà chúng ta xử lý dữ liệu tại một số phần nhỏ trên ứng dụng web mà không cần phải load lại toàn bộ trang web
 Cả JavaScript và XML đều hoạt động bất đồng bộ trong AJAX. **Kết quả là, nhiều ứng dụng web có thể sử dụng AJAX để gửi và nhận data từ server mà không phải toàn bộ trang.**
 
-### 6.3 Nút nhấn
+### 4.3 Nút nhấn
 -- Xây dựng hàm xử lý khi nhấn nút và chống nhiễu: 
 ```c
 void loop() {
@@ -233,8 +350,9 @@ void loop() {
 // Lưu lại giá trị nút nhấn hiện tại
   lastButtonState = reading;
 }
+
 ```
-**6.4 Một số đoạn code quan trọng**  
+### 4.4 Một số đoạn code quan trọng  
 **a) Đồng bộ trạng thái đèn**
 - Hàm gửi yêu cầu GET (http request) cập nhật trạng thái đèn 1s một lần vào URL “/state” từ Web Client
 ```cpp
@@ -261,6 +379,7 @@ setInterval(function ( ) {
   xhttp.send();
 }, 1000 ) ;
 </script>
+
 ```
 - Sau khi nhận được yêu cầu từ Web Client vào URL “/state”, Web Server sẽ đọc trạng thái chân điều khiển đèn qua hàm digitalread() và phản hồi ( http response) cho Web Client bằng hàm request->send. Từ đó hiển thị đồng bộ trạng thái đèn trên Web.
 ```c
@@ -269,6 +388,7 @@ setInterval(function ( ) {
   server.on("/state", HTTP_GET, [] (AsyncWebServerRequest *request) {
     request->send(200, "text/plain", String(digitalRead(output1)).c_str());
   });
+
 ```
 **b) Điều khiển tốc độ quạt**
 - Khi thanh trượt tốc độ quạt thay đổi thì hàm updatesliderPWM sẽ được gọi. Web Client sẽ gửi 1 yêu cầu get vào URL/slider kèm theo giá trị của thanh trượt: sliderValue. 
@@ -289,6 +409,7 @@ cách tạo yêu cầu get -->
   xhr.send();
 }
 </script>
+
 ```
 - Từ yêu cầu của http vào URL: /slider, web server sẽ nhận giá trị hiện tại của thanh trượt lưu vào biến sliderValue. Từ giá trị này em sẽ điều khiển tốc độ quạt thông qua hàm ledwrite(), sau đó phản hồi lại Web Client bằng hàm request -> send.
 ```c
@@ -307,4 +428,5 @@ server.on("/slider", HTTP_GET, [] (AsyncWebServerRequest *request) {
     Serial.println(inputMessage);
     request->send(200, "text/plain", "OK");
   });
+  
 ```

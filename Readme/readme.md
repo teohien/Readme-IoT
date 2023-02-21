@@ -12,6 +12,7 @@ Truy cập link: https://code.visualstudio.com/
 
 ![example](1-python.png)
 
+
 Truy cập link: https://www.python.org/downloads/.  
 **Lưu ý**: Hãy tích chọn Add Python 3.8 to PATH để có thể run Python ở bất cứ đâu.  
 -- Sau đó mở VS code, chuyển đến tab Extension, trong ô tìm kiếm gõ    **Platformio IDE**.

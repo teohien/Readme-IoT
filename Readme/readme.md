@@ -43,11 +43,11 @@ Chọn Framwork là Arduino:
 ![example](platformio-4-742x400.jpg)
 
 **Gồm :**
-- **Phần cây thư mục dự án:** cho chúng ta thêm, sửa, xóa các file nhanh
-Phần Text editor: là nơi viết code
-- **Cửa sổ Terminal:** Nơi gõ các câu lênh
-- **Thanh công cụ:** Lần lượt là Home, Build, Upload code, Clean, Serial Monitor(màn hình serial), Terminal
-- **Thư mục Src:** Chứa Source code của chương trình, đây là nơi lưu trữ code và bạn sẽ code trên đó. File thực thi chính là: main.cpp
+- **Phần cây thư mục dự án:** cho chúng ta thêm, sửa, xóa các file nhanh  
+- **Phần Text editor:** là nơi viết code  
+- **Cửa sổ Terminal:** Nơi gõ các câu lênh  
+- **Thanh công cụ:** Lần lượt là Home, Build, Upload code, Clean, Serial Monitor(màn hình serial), Terminal  
+- **Thư mục Src:** Chứa Source code của chương trình, đây là nơi lưu trữ code và bạn sẽ code trên đó. File thực thi chính là: main.cpp  
 - **Ứng dụng trong dự án:** Lập trình vi điều khiển ESP32 cho End Devices và Gateway
 
 -- Trên thực tế, các bạn có thể Copy trực tiếp các đoạn code viết bằng Arduino IDE và Paste thẳng vào đây. Chỉ cần giữ **#include <Arduino.h>** là code cũng có thể chạy bình thường. Thế nên các dự án mà bạn viết bằng Arduino cũng đều có thể viết bằng VS code nhé.   

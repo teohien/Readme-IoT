@@ -46,7 +46,7 @@ Chọn Framwork là Arduino:
 - **Phần cây thư mục dự án:** cho chúng ta thêm, sửa, xóa các file nhanh
 Phần Text editor: là nơi viết code
 - **Cửa sổ Terminal:** Nơi gõ các câu lênh
-**Thanh công cụ:** Lần lượt là Home, Build, Upload code, Clean, Serial Monitor(màn hình serial), Terminal
+- **Thanh công cụ:** Lần lượt là Home, Build, Upload code, Clean, Serial Monitor(màn hình serial), Terminal
 - **Thư mục Src:** Chứa Source code của chương trình, đây là nơi lưu trữ code và bạn sẽ code trên đó. File thực thi chính là: main.cpp
 - **Ứng dụng trong dự án:** Lập trình vi điều khiển ESP32 cho End Devices và Gateway
 
@@ -95,7 +95,7 @@ Nhớ giữ lại **#include <Arduino.h>** nhé!
 
 -- Sau khi nạp xong, thì xem thành quả thôi!!!
 ## 2. Hercules Terminal
-**Ứng dụng trong dự án:** UART để hiển thị các dữ liệu truyền nhận được giữa End Devices và Gateway, hỗ trợ mô phỏng để kiểm tra dữ liệu.
+**Ứng dụng trong dự án:** UART để hiển thị các dữ liệu truyền nhận được giữa End Devices và Gateway, hỗ trợ mô phỏng để kiểm tra dữ liệu.  
 [Link hướng dẫn chi tiết](https://khuenguyencreator.com/huong-dan-hercules-terminal/)  
 -- Hercules Terminal cũng như các phần mềm Terminal khác dùng để đọc chuỗi nhận được thông qua các cổng khác nhau trên máy tính.  
 -- Trong bài viết này mình chỉ đề cập tới việc sử dụng cổng COM hay Serial để đọc và truyền dữ liệu  
@@ -169,7 +169,7 @@ Nhóm em sẽ sử dụng App để phục vụ hai chức năng chính của h�
 
 ![example](Ảnh5.png)
 
-. Giao diện hoàn thiện của App:
+-- Giao diện hoàn thiện của App:
 
 ![example](Ảnh6.png)
 

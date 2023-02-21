@@ -232,7 +232,7 @@ void loop() {
   lastButtonState = reading;
 }
 ```
-**6.4 Một số đoạn code quan trọng**
+**6.4 Một số đoạn code quan trọng**  
 **a) Đồng bộ trạng thái đèn**
 - Hàm gửi yêu cầu GET (http request) cập nhật trạng thái đèn 1s một lần vào URL “/state” từ Web Client
 ```cpp

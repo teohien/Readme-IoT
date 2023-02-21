@@ -192,7 +192,7 @@ a) Các hàm khởi tạo
    Firebase.setMultiPathStreamCallback(DATA_Fb_2_Mos, streamCallback, streamTimeoutCallback);
 
 ```  
--- Trong dự án, nhóm em sẽ sử dụng 3 hàm để truyền nhận dữ liệu giữa Gateway và Firebase:
+-- Trong dự án, nhóm em sẽ sử dụng 3 hàm để truyền nhận dữ liệu giữa Gateway và Firebase:  
 + Firebase.setString(FirebaseData, "Path”, messageMQTT): truyền dữ liệu messageMQTT từ Gateway lên Firebase vào biến ở đường dẫn Path.  
 + FirebaseData.get(“Path”): kiểm tra xem có dữ liệu mới ở Firebase hay không.  
 + FirebaseData.value.c_str(): lấy dữ liệu từ Firebase về Gateway.  
